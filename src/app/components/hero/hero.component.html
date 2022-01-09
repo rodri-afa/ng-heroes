@@ -1,0 +1,175 @@
+<div class="card">
+  <div class="list-title">
+    <h2>Heroes List</h2>
+    <button class="primary" (click)="newHeroModal()" id="new-hero-button">
+      <ion-icon
+        name="add-circle-outline"
+        style="margin-right: 4px; font-size: 16px"
+      ></ion-icon>
+      <span>New hero</span>
+    </button>
+  </div>
+  <hr style="color: gray" />
+  <div class="list-body" *ngFor="let hero of heroes$ | async; last as isLast">
+    <div class="hero">
+      <div
+        class="edit-form"
+        [class.selected]="hero === selectedHero"
+        *ngIf="hero === selectedHero; else detailsList"
+        tabindex="1"
+        #activeHero
+      >
+        <div class="title">
+          <span class="badge">#{{ hero.id }}</span>
+          <input type="text" [(ngModel)]="hero.name" id="hero-name" />
+
+          <button class="btn-small primary" (click)="editHero(hero.id)">
+            Save
+          </button>
+          <button
+            class="btn-small outline"
+            (click)="deleteHero(hero.id, $event)"
+          >
+            delete
+          </button>
+        </div>
+        <ul>
+          <li>
+            <label for="hero-origin">Origin:</label>
+            <input
+              type="text"
+              [(ngModel)]="selectedHero.origin"
+              id="hero-origin"
+            />
+          </li>
+          <li>
+            <label for="hero-height">Height:</label>
+            <input
+              type="number"
+              [(ngModel)]="selectedHero.height"
+              id="hero-height"
+            />
+          </li>
+          <li>
+            <label for="hero-weight">Weight:</label>
+            <input
+              type="number"
+              [(ngModel)]="selectedHero.weight"
+              id="hero-weight"
+            />
+          </li>
+          <li>
+            Powers:
+            <span
+              class="badge-powers"
+              *ngFor="let power of toArray(hero.powers)"
+            >
+              <span> {{ power.power_name }}</span>
+
+              <ion-icon
+                name="close-circle"
+                class="circle-button"
+                (click)="deletePower(power, hero, $event)"
+              ></ion-icon>
+            </span>
+            <input
+              type="text"
+              name="new-power"
+              id="new-power"
+              [(ngModel)]="newPower"
+              [style.width.ch]="newPower.length + 2"
+            />
+
+            <ion-icon
+              name="add-circle-outline"
+              class="circle-button"
+              (click)="addPower(hero.id, $event)"
+            ></ion-icon>
+          </li>
+        </ul>
+        <!-- </div> -->
+      </div>
+      <ng-template #detailsList>
+        <div class="hero-details" (mousedown)="selectHero(hero)">
+          <div class="title">
+            <span class="badge">#{{ hero.id }}</span>
+            <h3>
+              {{ hero.name }}
+            </h3>
+          </div>
+          <ul>
+            <li>Origin: {{ hero.origin }}</li>
+            <li>Height: {{ hero.height }}</li>
+            <li>Weight: {{ hero.weight }}</li>
+            <li>
+              Powers:
+              <span
+                class="badge-powers"
+                *ngFor="let power of toArray(hero.powers); last as isLast"
+              >
+                {{ power.power_name }}
+                <!-- <span *ngIf="!isLast">,</span> -->
+              </span>
+            </li>
+          </ul>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<ion-popover [isOpen]="isModalOpen" trigger="new-hero-button" alignment="end">
+  <ng-template>
+    <div class="card new-hero">
+      <h2>New hero</h2>
+      <div class="flex">
+        <div class="input">
+          <label for="new-hero-name">Name:</label>
+          <input
+            type="text"
+            [(ngModel)]="newHeroData.name"
+            id="new-hero-name"
+          />
+        </div>
+        <div class="input">
+          <label for="new-hero-name">Origin:</label>
+          <input
+            type="text"
+            [(ngModel)]="newHeroData.origin"
+            id="new-hero-origin"
+          />
+        </div>
+        <div class="input">
+          <label for="new-hero-name">Height:</label>
+          <input
+            type="number"
+            [(ngModel)]="newHeroData.height"
+            id="new-hero-height"
+            step="0.01"
+          />
+        </div>
+        <div class="input">
+          <label for="new-hero-name">Weight:</label>
+          <input
+            type="number"
+            [(ngModel)]="newHeroData.weight"
+            id="new-hero-weight"
+          />
+        </div>
+      </div>
+      <div class="flex" style="margin-top: 12px">
+        <div class="input">
+          <label for="new-hero-description">Description:</label>
+          <textarea
+            name="description"
+            id="new-hero-description"
+            [(ngModel)]="newHeroData.description"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+      <br />
+      <button id="addHero" class="primary" (click)="saveNewHero()">Add</button>
+    </div>
+  </ng-template>
+</ion-popover>
