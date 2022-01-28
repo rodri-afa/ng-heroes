@@ -1,0 +1,13 @@
+header {
+  display: flex;
+  padding: 12px;
+  background-color: rgb(35, 147, 238);
+}
+header a {
+  text-decoration: none;
+}
+header a span {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+}

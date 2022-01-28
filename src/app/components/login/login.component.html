@@ -1,0 +1,10 @@
+<div id="login-card" class="card">
+  <div id="login-form">
+    <h2>Login</h2>
+    <label for="email">Email:</label>
+    <input type="text" id="email" [(ngModel)]="user.email" />
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="user.password" />
+    <button (click)="login()" class="button primary">login</button>
+  </div>
+</div>
