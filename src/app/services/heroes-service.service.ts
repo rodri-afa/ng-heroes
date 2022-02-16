@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class HeroesServiceService {
-  private heroesUrl = GlobalConstants.localHost + '/heroes';
+  private heroesUrl = GlobalConstants.apiURL + '/heroes';
 
   httpOptions = {
     headers: new HttpHeaders({
